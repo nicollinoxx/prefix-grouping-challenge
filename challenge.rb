@@ -1,5 +1,26 @@
 # ----------------- Implementation (TODO) -----------------
-# TODO: Implement the method below.
+def group_by_prefix(words, n)
+  raise ArgumentError, 'words must be an Array'       unless words.is_a?(Array)
+  raise ArgumentError, 'n must be a positive Integer' unless n.is_a?(Integer) && n.positive?
+
+  groups = Hash.new { |hash, key| hash[key] = [] }
+
+  words.each do |word|
+    add_to_group(groups, word, n) if valid_word_for_prefix?(word, n)
+  end
+
+  groups.values
+end
+
+def add_to_group(groups, word, n)
+  normalized_prefix = word[0, n].downcase
+  groups[normalized_prefix] << word
+end
+
+def valid_word_for_prefix?(word, n)
+  word.is_a?(String) && word.length >= n
+end
+
 # ----------------- Color helpers -----------------
 def green(t)  = "\e[32m#{t}\e[0m"
 def red(t)    = "\e[31m#{t}\e[0m"
